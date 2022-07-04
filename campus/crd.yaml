@@ -846,10 +846,40 @@ spec:
                                                                                 type: boolean
                                                                             type: object
                                                                         type: object
-                                                                      meta:
+                                                                      mount:
                                                                         properties:
-                                                                          report_interval:
-                                                                            type: number
+                                                                          mock.digi.dev/v1/occupancies:
+                                                                            additionalProperties:
+                                                                              properties:
+                                                                                generation:
+                                                                                  type: number
+                                                                                mode:
+                                                                                  type: string
+                                                                                spec:
+                                                                                  properties:
+                                                                                    meta:
+                                                                                      properties:
+                                                                                        gen_interval:
+                                                                                          type: number
+                                                                                        managed:
+                                                                                          type: boolean
+                                                                                      type: object
+                                                                                    obs:
+                                                                                      properties:
+                                                                                        battery_level:
+                                                                                          type: number
+                                                                                        dbm:
+                                                                                          type: string
+                                                                                        motion_detected:
+                                                                                          type: boolean
+                                                                                        supply_voltage:
+                                                                                          type: string
+                                                                                      type: object
+                                                                                  type: object
+                                                                                status:
+                                                                                  type: string
+                                                                              type: object
+                                                                            type: object
                                                                         type: object
                                                                       obs:
                                                                         properties:

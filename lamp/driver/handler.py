@@ -12,6 +12,10 @@ def do_control(sv):
 
     if "intent" in b:
         if p.get("status", "off") == "on":
+            import time
+            start = time.time()
+            b["status"] = digi.pool.query("avg(brightness)")
+            digi.logger.info(f"DEBUG: {time.time() - start}")
             b["status"] = b["intent"]
         else:
             b["status"] = 0
