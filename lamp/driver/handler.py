@@ -1,29 +1,50 @@
 import digi
 import digi.on as on
 import digi.util as util
-from digi import dbox
 
-@on.control(cond=dbox.managed)
-def do_control(sv):
-    p, b = sv.get("power", {}), sv.get("brightness", {})
-    p_old_status, b_old_status = p.get("status"), b.get("status")
-    if "intent" in p:
-        p["status"] = p["intent"]
+mock_gvr = "mock.digi.dev/v1/lamps"
 
-    if "intent" in b:
-        if p.get("status", "off") == "on":
-            import time
-            start = time.time()
-            b["status"] = digi.pool.query("avg(brightness)")
-            digi.logger.info(f"DEBUG: {time.time() - start}")
-            b["status"] = b["intent"]
-        else:
-            b["status"] = 0
 
-    # report only when status has change
-    if p.get("status") != p_old_status \
-            or b.get("status") != b_old_status:
+# mock status
+@on.mount
+def do_mock_status(pv, mount):
+    mock = get_mock(mount)
+    power_attr, bright_attr = "control.power.status", "control.brightness.status"
+    power = util.get(mock, f"spec.{power_attr}")
+    bright = util.get(mock, f"spec.{bright_attr}")
+    old_power, old_bright = util.get(pv, power_attr), \
+                            util.get(pv, bright_attr)
+    util.update(pv, power_attr, power)
+    util.update(pv, bright_attr, bright)
+    if power != old_power or bright != old_bright:
         report()
+
+
+def get_mock(mount):
+    mocks = mount.get(mock_gvr, {})
+    assert len(mocks) <= 1, "at most one mock allowed"
+    for _, mock in mocks.items():
+        return mock
+    return None
+
+
+@on.control
+def do_control(sv, meta, mount):
+    bright_mode = meta.get("brightness")
+    mock = get_mock(mount)
+
+    # do mock lamp
+    power = util.get(sv, "power.intent")
+    if bright_mode == "auto":
+        bright = digi.pool.query("avg(brightness)")
+    else:
+        bright = util.get(sv, "brightness.intent")
+
+    # do other lamp
+    ...
+
+    util.update(mock, "spec.control.power.intent", power)
+    util.update(mock, "spec.control.brightness.intent", bright)
 
 
 def report():

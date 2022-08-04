@@ -7,9 +7,9 @@ spec:
     energy:
       sources: [ kind:any@energy ]
       patch_source: true
-    room_occupancy:
-      sources: [ kind:room@occupancy ]
-      patch_source: true
+#    room_occupancy:
+#      sources: [ kind:room@occupancy ]
+#      patch_source: true
     occupancy:
       sources: [ kind:room@occupancy ]
       flow: "sort -r event_ts | head" # at-most-once

@@ -7,7 +7,9 @@ control:
 meta:
   wattage: number
   report_interval: number
-  managed: boolean
+  brightness: string
 egress:
   data: object
   energy: object
+mount:
+  mock.digi.dev/v1/lamps: object

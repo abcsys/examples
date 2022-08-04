@@ -24,10 +24,11 @@ spec:
     energy:
       flow: "watt | cut watt,event_ts"
     occupancy:
-      flow: |-
-        desk_occupancy |
-        cut desk_occupancy,event_ts |
-        rename occupancy := desk_occupancy
+      flow: "cut occupancy,event_ts"
+#      flow: |-
+#        desk_occupancy |
+#        cut desk_occupancy,event_ts |
+#        rename occupancy := desk_occupancy
     people_count:
       flow: "num_human | cut num_human,event_ts | rename count:=num_human"
     noise:

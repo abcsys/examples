@@ -14,7 +14,11 @@ def do_mock(mount):
         motion = util.get(mock, "spec.obs.motion_detected")
     if motion is not None:
         digi.model.patch("obs.motion_detected", motion)
-        digi.pool.load([{"motion": motion}])
+
+
+@on.obs("motion_detected")
+def do_obs(sv):
+    digi.pool.load([{"motion": sv}])
 
 
 # Ring motion sensor

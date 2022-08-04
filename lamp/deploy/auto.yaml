@@ -10,6 +10,7 @@ spec:
     brightness:
       intent: 0.2
   meta:
+    brightness: auto
     wattage: 12
     report_interval: -1
   # data router configs

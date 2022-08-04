@@ -30,6 +30,7 @@ gvr_lamp = "example.digi.dev/v1/lamps"
 gvr_phone = "example.digi.dev/v1/phones"
 gvr_scene = "example.digi.dev/v1/scenes"
 gvr_underdesk = "example.digi.dev/v1/underdesks"
+gvr_occupancy = "example.digi.dev/v1/occupancies"
 
 mode_config = {
     "work": {
@@ -235,7 +236,7 @@ def _set_bright(ds, b):
 
 
 @on.model
-def h(model):
+def do_report():
     report()
 
 
@@ -254,32 +255,39 @@ def report():
         record.update({"num_lamp": 0})
 
     # objects
-    num_human, humans = 0, list()
     objects = util.get(model, f"obs.objects")
-    objects = objects if objects else []
-    for o in objects:
-        if o.get("class", None) == "human":
-            num_human += 1
-            humans.append(o.get("name", None))
-    record.update({
-        "num_human": num_human,
-        "human": humans,
-    })
+    if objects is not None:
+        num_human, humans = 0, list()
+        for o in objects:
+            if o.get("class", None) == "human":
+                num_human += 1
+                humans.append(o.get("name", None))
+        record.update({
+            "num_human": num_human,
+            "human": humans,
+        })
 
     # phone
     phones = mounts.get(gvr_phone)
     if phones is not None:
         record.update({"num_human": max(len(phones), num_human)})
-        digi.logger.info(f"DEBUG: {len(phones)} {num_human}")
 
-    # occupancy
+    # uncommented to generate data at the driver
+    # room occupancy
+    # occupancies = mounts.get(gvr_occupancy, {})
+    # room_occupancy = any(util.get(occ, "spec.obs.motion_detected", False)
+    #                      for _, occ in occupancies.items())
+    # record.update({"occupancy": int(room_occupancy)})
+
+    # desk occupancy
     # XXX assume each desk has an underdesk
-    underdesks = mounts.get(gvr_underdesk, {})
-    num_active_desk = sum(util.get(ud, "spec.obs.motion_detected", False)
-                          for _, ud in underdesks.items())
-    desk_occupancy = None if underdesks is None or len(underdesks) == 0 else \
-        num_active_desk / len(underdesks)
-    record.update({"desk_occupancy": desk_occupancy})
+    # underdesks = mounts.get(gvr_underdesk, {})
+    # num_active_desk = sum(util.get(ud, "spec.obs.motion_detected", False)
+    #                       for _, ud in underdesks.items())
+    # desk_occupancy = None if underdesks is None or len(underdesks) == 0 else \
+    #     num_active_desk / len(underdesks)
+    # if desk_occupancy is not None:
+    #     record.update({"desk_occupancy": desk_occupancy})
 
     digi.pool.load([record])
 
