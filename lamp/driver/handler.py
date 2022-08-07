@@ -10,8 +10,8 @@ mock_gvr = "mock.digi.dev/v1/lamps"
 def do_mock_status(pv, mount):
     mock = get_mock(mount)
     power_attr, bright_attr = "control.power.status", "control.brightness.status"
-    power = util.get(mock, f"spec.{power_attr}")
-    bright = util.get(mock, f"spec.{bright_attr}")
+    power, bright = util.get(mock, f"spec.{power_attr}"), \
+                    util.get(mock, f"spec.{bright_attr}")
     old_power, old_bright = util.get(pv, power_attr), \
                             util.get(pv, bright_attr)
     util.update(pv, power_attr, power)
@@ -29,22 +29,25 @@ def get_mock(mount):
 
 
 @on.control
-def do_control(sv, meta, mount):
-    bright_mode = meta.get("brightness")
+def do_control(pv, mount):
     mock = get_mock(mount)
-
-    # do mock lamp
-    power = util.get(sv, "power.intent")
-    if bright_mode == "auto":
-        bright = digi.pool.query("avg(brightness)")
-    else:
-        bright = util.get(sv, "brightness.intent")
-
-    # do other lamp
-    ...
-
+    power = util.get(pv, "control.power.intent")
+    bright = util.get(pv, "control.brightness.intent")
     util.update(mock, "spec.control.power.intent", power)
     util.update(mock, "spec.control.brightness.intent", bright)
+
+
+@on.control
+@on.meta("auto_brightness")
+def do_auto_brightness(pv, meta):
+    if meta.get("auto_brightness", False):
+        bright = 0.0
+        records = list(digi.pool.query('power=="on" | avg(brightness)'))
+        if len(records) > 0:
+            bright = round(records[0]["avg"], 2)
+        bright = max(bright, 0.1)
+        util.update(pv, "control.brightness.intent", bright)
+        digi.rc.do_not_skip()
 
 
 def report():

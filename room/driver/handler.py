@@ -235,6 +235,37 @@ def _set_bright(ds, b):
                     _lc(b))
 
 
+# ensure the brightness adjustment happens once
+# per intent update
+_done_auto_brightness = False
+
+
+@on.control("brightness.intent")
+@on.meta("auto_brightness")
+def do_auto_brightness(pv, meta, diff):
+    global _done_auto_brightness
+    digi.logger.info(f"DEBUG {diff}")
+
+    if _done_auto_brightness:
+        _done_auto_brightness = False
+        return
+
+    if meta.get("auto_brightness", False):
+        bright = 0.0
+        records = list(digi.pool.query('avg(brightness)'))
+        if len(records) > 0:
+            bright = round(records[0]["avg"], 2)
+        bright = max(bright, 0.1)
+        util.update(pv, "control.brightness.intent", bright)
+        _done_auto_brightness = True
+        digi.logger.info(f"DEBUG auto brightness set: {bright}")
+        digi.rc.do_not_skip()
+
+
+# @on.pool("")
+# def
+
+
 @on.model
 def do_report():
     report()

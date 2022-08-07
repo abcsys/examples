@@ -3,6 +3,8 @@ kind: Room
 metadata:
   name: {{ .Values.name }}
 spec:
+  meta:
+    auto_brightness: false
   control:
     brightness:
       intent: 1

@@ -13,6 +13,7 @@ meta:
         type: object
       type: object
   report_interval: number
+  auto_brightness: boolean
 control:
   brightness: number
   mode: string

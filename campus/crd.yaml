@@ -645,6 +645,8 @@ spec:
                                                           type: object
                                                         meta:
                                                           properties:
+                                                            auto_brightness:
+                                                              type: boolean
                                                             modeConfig:
                                                               additionalProperties:
                                                                 properties:
@@ -811,8 +813,8 @@ spec:
                                                                         type: object
                                                                       meta:
                                                                         properties:
-                                                                          brightness:
-                                                                            type: string
+                                                                          auto_brightness:
+                                                                            type: boolean
                                                                           report_interval:
                                                                             type: number
                                                                           wattage:
@@ -848,6 +850,8 @@ spec:
                                                                                       type: object
                                                                                     meta:
                                                                                       properties:
+                                                                                        actuation_delay:
+                                                                                          type: number
                                                                                         gen_interval:
                                                                                           type: number
                                                                                         managed:
