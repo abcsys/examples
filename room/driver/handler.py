@@ -1,6 +1,9 @@
+import os
+import sys
+from twilio.rest import Client
+
 import digi
 import digi.on as on
-
 import digi.util as util
 
 """
@@ -140,18 +143,23 @@ def do_obs(parent, mounts):
     scenes = mounts.get(gvr_scene, {})
     if len(scenes) < 1:
         util.update(room, f"obs.objects", None, create=True)
-        return
 
     for _, s in scenes.items():
         objects = util.get(s, "spec.data.output.objects", None)
         util.update(room, f"obs.objects", objects, create=True)
+
+    occupancy_sensors = mounts.get(gvr_occupancy, {})
+    motion = False
+    for _, o in occupancy_sensors.items():
+        motion = util.get(o, "spec.obs.motion_detected") or motion
+        # assume motion is triggered by human
+        util.update(room, f"obs.human_presence", motion, create=True)
 
 
 @on.mount
 @on.control("mode", prio=0)
 def do_mode(parent, mounts):
     room = parent
-
     mode = util.get(room, "control.mode.intent")
     if mode is None:
         return
@@ -161,7 +169,7 @@ def do_mode(parent, mounts):
     lamp_config, room_brightness = mode_config[mode]["lamps"], list()
 
     objects = util.get(room, "obs.objects", {})
-    human_presence = None if objects is None \
+    human_presence = util.get(room, "obs.human_presence", {}) if objects is None \
         else any(o.get("class", None) == "human" for o in objects)
     util.update(room, f"obs.human_presence", human_presence, create=True)
 
@@ -242,9 +250,8 @@ _done_auto_brightness = False
 
 @on.control("brightness.intent")
 @on.meta("auto_brightness")
-def do_auto_brightness(pv, meta, diff):
+def do_auto_brightness(pv, meta):
     global _done_auto_brightness
-    digi.logger.info(f"DEBUG {diff}")
 
     if _done_auto_brightness:
         _done_auto_brightness = False
@@ -258,12 +265,37 @@ def do_auto_brightness(pv, meta, diff):
         bright = max(bright, 0.1)
         util.update(pv, "control.brightness.intent", bright)
         _done_auto_brightness = True
-        digi.logger.info(f"DEBUG auto brightness set: {bright}")
         digi.rc.do_not_skip()
 
 
-# @on.pool("")
-# def
+@on.pool
+def inform_overcrowd(meta):
+    if not meta.get("report_overcrowding"):
+        return
+    capacity = meta.get("capacity", sys.maxsize)
+    account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+    auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+    from_phone = os.environ.get("FROM_PHONE")
+    to_phone = os.environ.get("TO_PHONE")
+    if account_sid is None or auth_token is None:
+        return
+
+    # query average num of people
+    records = list(digi.pool.query('avg(num_human)'))
+    avg_num_human = 0
+    if len(records) > 0:
+        avg_num_human = round(records[0]["avg"], 2)
+    if avg_num_human < capacity:
+        return
+
+    client = Client(account_sid, auth_token)
+    message = client.messages \
+        .create(
+        body=f"Overcrowding in {digi.name}: {avg_num_human}/{capacity}",
+        from_=from_phone,
+        to=to_phone,
+    )
+    digi.logger.info(f"Sent: {message}")
 
 
 @on.model

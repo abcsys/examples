@@ -647,6 +647,8 @@ spec:
                                                           properties:
                                                             auto_brightness:
                                                               type: boolean
+                                                            capacity:
+                                                              type: number
                                                             modeConfig:
                                                               additionalProperties:
                                                                 properties:
@@ -658,6 +660,8 @@ spec:
                                                               type: object
                                                             report_interval:
                                                               type: number
+                                                            report_overcrowding:
+                                                              type: boolean
                                                           type: object
                                                         mount:
                                                           properties:

@@ -14,6 +14,8 @@ meta:
       type: object
   report_interval: number
   auto_brightness: boolean
+  report_overcrowding: boolean
+  capacity: number
 control:
   brightness: number
   mode: string
