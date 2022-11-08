@@ -36,10 +36,6 @@ mode_config = {
     "emergency": {},
 }
 
-# TBD brightness of last week
-brightness = digi.pool.query("avg(brightness)")
-digi.logger.info(f"DEBUG {brightness}")
-
 @on.mount
 def do_home_status(parent, mounts):
     home = parent
