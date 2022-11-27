@@ -1,5 +1,5 @@
 apiVersion: example.digi.dev/v1
-kind: roomba
+kind: Roomba
 metadata:
-  name: roomba-test
+  name: roomba
 spec: {}

@@ -1,5 +1,5 @@
 apiVersion: example.digi.dev/v1
-kind: purifier
+kind: Purifier
 metadata:
-  name: purifier-test
+  name: purifier
 spec: {}

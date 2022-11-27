@@ -1,5 +1,5 @@
 apiVersion: example.digi.dev/v1
-kind: camera
+kind: Camera
 metadata:
-  name: camera-test
+  name: camera
 spec: {}

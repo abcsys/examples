@@ -1,5 +1,5 @@
 apiVersion: example.digi.dev/v1
-kind: hvac
+kind: Hvac
 metadata:
-  name: hvac-test
+  name: hvac
 spec: {}

@@ -1,5 +1,5 @@
 apiVersion: example.digi.dev/v1
-kind: stat
+kind: Stat
 metadata:
-  name: stat-test
+  name: stat
 spec: {}

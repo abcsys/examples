@@ -1,7 +1,7 @@
 apiVersion: example.digi.dev/v1
 kind: Room
 metadata:
-  name: room-test
+  name: room
 spec:
   control:
     brightness:
