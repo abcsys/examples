@@ -1,5 +1,5 @@
-group: digi.dev
-image: jamsheedmistri/digiphone.v1.digi.dev:latest
+group: example.digi.dev
+image: jamsheedmistri/digiphone.v1.example.digi.dev:latest
 imagepull: Always
 kind: Digiphone
 mounter: false

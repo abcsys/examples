@@ -1,4 +1,4 @@
-apiVersion: digi.dev/v1
+apiVersion: example.digi.dev/v1
 kind: Digiphone
 metadata:
   name: digiphone
