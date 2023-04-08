@@ -268,34 +268,34 @@ def do_auto_brightness(pv, meta):
         digi.rc.do_not_skip()
 
 
-@on.pool
-def inform_overcrowd(meta):
-    if not meta.get("report_overcrowding"):
-        return
-    capacity = meta.get("capacity", sys.maxsize)
-    account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
-    auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
-    from_phone = os.environ.get("FROM_PHONE")
-    to_phone = os.environ.get("TO_PHONE")
-    if account_sid is None or auth_token is None:
-        return
-
-    # query average num of people
-    records = list(digi.pool.query('avg(num_human)'))
-    avg_num_human = 0
-    if len(records) > 0:
-        avg_num_human = round(records[0]["avg"], 2)
-    if avg_num_human < capacity:
-        return
-
-    client = Client(account_sid, auth_token)
-    message = client.messages \
-        .create(
-        body=f"Overcrowding in {digi.name}: {avg_num_human}/{capacity}",
-        from_=from_phone,
-        to=to_phone,
-    )
-    digi.logger.info(f"Sent: {message}")
+# @on.pool
+# def inform_overcrowd(meta):
+#     if not meta.get("report_overcrowding"):
+#         return
+#     capacity = meta.get("capacity", sys.maxsize)
+#     account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
+#     auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+#     from_phone = os.environ.get("FROM_PHONE")
+#     to_phone = os.environ.get("TO_PHONE")
+#     if account_sid is None or auth_token is None:
+#         return
+#
+#     # query average num of people
+#     records = list(digi.pool.query('avg(num_human)'))
+#     avg_num_human = 0
+#     if len(records) > 0:
+#         avg_num_human = round(records[0]["avg"], 2)
+#     if avg_num_human < capacity:
+#         return
+#
+#     client = Client(account_sid, auth_token)
+#     message = client.messages \
+#         .create(
+#         body=f"Overcrowding in {digi.name}: {avg_num_human}/{capacity}",
+#         from_=from_phone,
+#         to=to_phone,
+#     )
+#     digi.logger.info(f"Sent: {message}")
 
 
 @on.model

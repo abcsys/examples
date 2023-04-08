@@ -539,6 +539,8 @@ spec:
                                                                   items:
                                                                     type: string
                                                                   type: array
+                                                                use_sourcer:
+                                                                  type: boolean
                                                               type: object
                                                             device_energy:
                                                               properties:
@@ -573,6 +575,8 @@ spec:
                                                                   items:
                                                                     type: string
                                                                   type: array
+                                                                use_sourcer:
+                                                                  type: boolean
                                                               type: object
                                                             noise:
                                                               properties:
@@ -607,6 +611,8 @@ spec:
                                                                   items:
                                                                     type: string
                                                                   type: array
+                                                                use_sourcer:
+                                                                  type: boolean
                                                               type: object
                                                             occupancy:
                                                               properties:
@@ -641,6 +647,8 @@ spec:
                                                                   items:
                                                                     type: string
                                                                   type: array
+                                                                use_sourcer:
+                                                                  type: boolean
                                                               type: object
                                                           type: object
                                                         meta:
