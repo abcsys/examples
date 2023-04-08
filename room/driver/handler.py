@@ -169,7 +169,7 @@ def do_mode(parent, mounts):
     lamp_config, room_brightness = mode_config[mode]["lamps"], list()
 
     objects = util.get(room, "obs.objects", {})
-    human_presence = util.get(room, "obs.human_presence", {}) if objects is None \
+    human_presence = util.get(room, "obs.human_presence", None) if objects is None \
         else any(o.get("class", None) == "human" for o in objects)
     util.update(room, f"obs.human_presence", human_presence, create=True)
 
