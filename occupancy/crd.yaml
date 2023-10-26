@@ -27,12 +27,20 @@ spec:
                 properties:
                   detected:
                     properties:
+                      de_id:
+                        type: boolean
+                      desc:
+                        type: string
                       driver_managed:
                         type: boolean
                       eoio:
                         type: boolean
                       flow:
                         type: string
+                      link:
+                        type: boolean
+                      offload:
+                        type: boolean
                       pause:
                         type: boolean
                     type: object

@@ -321,67 +321,115 @@ spec:
                                             properties:
                                               desk_occupancy:
                                                 properties:
+                                                  de_id:
+                                                    type: boolean
+                                                  desc:
+                                                    type: string
                                                   driver_managed:
                                                     type: boolean
                                                   eoio:
                                                     type: boolean
                                                   flow:
                                                     type: string
+                                                  link:
+                                                    type: boolean
+                                                  offload:
+                                                    type: boolean
                                                   pause:
                                                     type: boolean
                                                 type: object
                                               energy:
                                                 properties:
+                                                  de_id:
+                                                    type: boolean
+                                                  desc:
+                                                    type: string
                                                   driver_managed:
                                                     type: boolean
                                                   eoio:
                                                     type: boolean
                                                   flow:
                                                     type: string
+                                                  link:
+                                                    type: boolean
+                                                  offload:
+                                                    type: boolean
                                                   pause:
                                                     type: boolean
                                                 type: object
                                               energy_rank:
                                                 properties:
+                                                  de_id:
+                                                    type: boolean
+                                                  desc:
+                                                    type: string
                                                   driver_managed:
                                                     type: boolean
                                                   eoio:
                                                     type: boolean
                                                   flow:
                                                     type: string
+                                                  link:
+                                                    type: boolean
+                                                  offload:
+                                                    type: boolean
                                                   pause:
                                                     type: boolean
                                                 type: object
                                               noise:
                                                 properties:
+                                                  de_id:
+                                                    type: boolean
+                                                  desc:
+                                                    type: string
                                                   driver_managed:
                                                     type: boolean
                                                   eoio:
                                                     type: boolean
                                                   flow:
                                                     type: string
+                                                  link:
+                                                    type: boolean
+                                                  offload:
+                                                    type: boolean
                                                   pause:
                                                     type: boolean
                                                 type: object
                                               occupancy:
                                                 properties:
+                                                  de_id:
+                                                    type: boolean
+                                                  desc:
+                                                    type: string
                                                   driver_managed:
                                                     type: boolean
                                                   eoio:
                                                     type: boolean
                                                   flow:
                                                     type: string
+                                                  link:
+                                                    type: boolean
+                                                  offload:
+                                                    type: boolean
                                                   pause:
                                                     type: boolean
                                                 type: object
                                               people_count:
                                                 properties:
+                                                  de_id:
+                                                    type: boolean
+                                                  desc:
+                                                    type: string
                                                   driver_managed:
                                                     type: boolean
                                                   eoio:
                                                     type: boolean
                                                   flow:
                                                     type: string
+                                                  link:
+                                                    type: boolean
+                                                  offload:
+                                                    type: boolean
                                                   pause:
                                                     type: boolean
                                                 type: object
@@ -396,9 +444,13 @@ spec:
                                                     type: string
                                                   flow_agg:
                                                     type: string
+                                                  offload:
+                                                    type: boolean
                                                   patch_source:
                                                     type: boolean
                                                   pause:
+                                                    type: boolean
+                                                  skip_history:
                                                     type: boolean
                                                   source:
                                                     items:
@@ -432,9 +484,13 @@ spec:
                                                     type: string
                                                   flow_agg:
                                                     type: string
+                                                  offload:
+                                                    type: boolean
                                                   patch_source:
                                                     type: boolean
                                                   pause:
+                                                    type: boolean
+                                                  skip_history:
                                                     type: boolean
                                                   source:
                                                     items:
@@ -468,9 +524,13 @@ spec:
                                                     type: string
                                                   flow_agg:
                                                     type: string
+                                                  offload:
+                                                    type: boolean
                                                   patch_source:
                                                     type: boolean
                                                   pause:
+                                                    type: boolean
+                                                  skip_history:
                                                     type: boolean
                                                   source:
                                                     items:
@@ -504,9 +564,13 @@ spec:
                                                     type: string
                                                   flow_agg:
                                                     type: string
+                                                  offload:
+                                                    type: boolean
                                                   patch_source:
                                                     type: boolean
                                                   pause:
+                                                    type: boolean
+                                                  skip_history:
                                                     type: boolean
                                                   source:
                                                     items:
@@ -684,23 +748,39 @@ spec:
                                                           properties:
                                                             data:
                                                               properties:
+                                                                de_id:
+                                                                  type: boolean
+                                                                desc:
+                                                                  type: string
                                                                 driver_managed:
                                                                   type: boolean
                                                                 eoio:
                                                                   type: boolean
                                                                 flow:
                                                                   type: string
+                                                                link:
+                                                                  type: boolean
+                                                                offload:
+                                                                  type: boolean
                                                                 pause:
                                                                   type: boolean
                                                               type: object
                                                             energy:
                                                               properties:
+                                                                de_id:
+                                                                  type: boolean
+                                                                desc:
+                                                                  type: string
                                                                 driver_managed:
                                                                   type: boolean
                                                                 eoio:
                                                                   type: boolean
                                                                 flow:
                                                                   type: string
+                                                                link:
+                                                                  type: boolean
+                                                                offload:
+                                                                  type: boolean
                                                                 pause:
                                                                   type: boolean
                                                               type: object
@@ -777,12 +857,20 @@ spec:
                                                           properties:
                                                             detected:
                                                               properties:
+                                                                de_id:
+                                                                  type: boolean
+                                                                desc:
+                                                                  type: string
                                                                 driver_managed:
                                                                   type: boolean
                                                                 eoio:
                                                                   type: boolean
                                                                 flow:
                                                                   type: string
+                                                                link:
+                                                                  type: boolean
+                                                                offload:
+                                                                  type: boolean
                                                                 pause:
                                                                   type: boolean
                                                               type: object
